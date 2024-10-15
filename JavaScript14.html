@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <h1>Enter Population Records</h1>
+<form id="populationForm">
+<label for="name">Name:</label>
+<input type="text" name="name" id="name" required="required"><br>
+<label for="Gender">Gender:</label>
+<input type="radio" name="Gender" value="Male" id="male" required="required">Male
+<input type="radio" name="Gender" value="Female" id="female" required="required">Female
+<br><br>
+<label for="Address">Address</label>
+<input type="text" name="Address" id="address" required="required">
+<br><br>
+<label for="Education">Education</label>
+<select name="Education" id="education" required>
+  <option value="High School">High School</option>
+  <option value="Bachelor's">Bachelor</option>
+  <option value="Master's">Master's</option>
+  <option value="PhD">PhD</option>
+</select>
+<br><br>
+<label for="profession">Profession:</label>
+<select id="profession" name="profession" required>
+    <option value="Doctor">Doctor</option>
+    <option value="Engineer">Engineer</option>
+    <option value="Teacher">Teacher</option>
+    <option value="Lawyer">Lawyer</option>
+</select><br><br>
+
+<button type="submit">Add Record</button>
+
+</form>
+
+<h2>Saved Records:</h2>
+    <ul id="recordsList"></ul> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        var itemsArray = [
+  {name: "juice", price: 50, quantity: 3},
+  {name: "cookie", price: 30, quantity: 9},
+  {name: "shirt", price: 880, quantity: 1},
+  {name: "pen", price: 100, quantity: 2}
+];
+
+
+function calculateItemTotal(item) {
+  var itemTotal = item.price * item.quantity;
+document.write(item.name + ": Total Price = " + itemTotal+"<br>");
+  return itemTotal;
+}
+
+
+function calculateTotal(items) {
+  var totalCost = 0;
+  
+
+  for (var i = 0; i < items.length; i++) {
+    totalCost += calculateItemTotal(items[i]);
+  }
+  
+  return totalCost;
+}
+
+
+var totalPriceOfAllItems = calculateTotal(itemsArray);
+document.write("Total price of all items: " + totalPriceOfAllItems);
+
+
+
+// Question 2
+var person = {
+  name: "Ali",
+  email: "ali@example.com",
+  password: "password123",
+  age: 30,
+  gender: "male",
+  city: "Karachi",
+  country: "Pakistan"
+};
+
+console.log("Does 'age'property exist in object? ", 'age' in person);        
+console.log("Does 'country' property exist in object? ", 'country' in person);
+console.log("Does 'firstName'property exist in object? ", 'firstName' in person); 
+console.log("Does 'lastName'property exist in object? ", 'lastName' in person);   
+
+
+// Question 3
+function Plan(name,lastName,age,height){
+    this.name=name;
+    this.lastName=lastName;
+    this.age=age;
+    this.height=height;
+
+}
+var person1= new Plan("Aisha","Ahmed",16,5.1);
+var person2= new Plan("Humaira","Subhan",18,5.5);
+var person3= new Plan("Alina","Irshad",19,5.8);
+console.log(person1);
+console.log(person2);
+console.log(person3);;
+
+function Person(name,gender,address,education,profession){
+this.name="name";
+this.gender="gender";
+this.address="address";
+this.education="education";
+this.profession="profession";
+function addRecordToStorage(person) {
+    let records = JSON.parse(localStorage.getItem('populationRecords')) || [];
+    records.push(person);
+    localStorage.setItem('populationRecords', JSON.stringify(records));
+    displayRecords();
+}
+
+function displayRecords() {
+    let records = JSON.parse(localStorage.getItem('populationRecords')) || [];
+    const recordsList = document.getElementById('recordsList');
+    recordsList.innerHTML = '';  
+
+    records.forEach((record, index) => {
+      const li = document.createElement('li');
+        li.textContent = `${index + 1}. Name: ${record.name}, Gender: ${record.gender}, Address: ${record.address}, Education: ${record.education}, Profession: ${record.profession}`;
+        recordsList.appendChild(li);
+    });
+}
+
+document.getElementById('populationForm').addEventListener('submit', function(event) {
+    event.preventDefault();  
+
+    const name = document.getElementById('name').value;
+    const gender = document.querySelector('input[name="gender"]:checked').value;
+    const address = document.getElementById('address').value;
+    
+    const education = document.getElementById('education').value;
+    const profession = document.getElementById('profession').value;
+
+    const person = new Person(name, gender, address, education, profession);
+
+    addRecordToStorage(person);
+
+
+    document.getElementById('populationForm').reset();
+});
+document.addEventListener('DOMContentLoaded', displayRecords)
+}
+
+
+    </script>
+</body>
+</html>
